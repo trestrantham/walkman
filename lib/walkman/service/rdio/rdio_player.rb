@@ -7,7 +7,7 @@ class RdioPlayer < Sinatra::Base
   end
 
   get "/rdio/:song_id/done" do |song_id|
-    Walkman::Player.services["Walkman::Service::Rdio"].quit_browser(song_id)
+    Walkman::Player.services["Walkman::Service::Rdio"].stop
   end
 
   template :player do

@@ -7,11 +7,11 @@ module Walkman
       end
 
       def startup
-        @pid = fork { RdioPlayer.run! }
+        @player_pid = fork { RdioPlayer.run! }
       end
 
       def shutdown
-        Process.kill('KILL', @pid)
+        Process.kill('KILL', @player_pid) if @player_pid
       end
 
       def restart
@@ -20,7 +20,7 @@ module Walkman
       end
 
       def play(source_id)
-        stop
+        quit_browser
         launch_browser(source_id)
       end
 
@@ -28,19 +28,24 @@ module Walkman
         quit_browser
       end
 
-      def quit_browser(source_id = "")
-        `ps ax | grep "#{@url}/#{source_id}" | grep -v grep`.split("\n").size.times do
-          `kill $(ps ax | grep "#{@url}/#{source_id}" | grep -v grep | sed -e 's/^[ \t]*//' | cut -d ' ' -f 1)`
-        end
-      end
-
       private
 
       def launch_browser(source_id)
         data_dir = "/tmp/walkman/chrome/#{rand(999999999999)}"
-        cmd = "#{@app} \"#{@url}/#{source_id}\" --user-data-data-dir=#{data_dir}"
+        launch_cmd = "#{@app} \"#{@url}/#{source_id}\" --user-data-data-dir=#{data_dir}"
 
-        pid = fork { Command.run(cmd) }
+        @browser_pid = fork { Command.run(launch_cmd) }
+      end
+
+      def quit_browser(source_id = "")
+        find_cmd = "ps ax | grep \"#{@url}/#{source_id}\" | grep -v grep"
+        kill_cmd = "kill $(ps ax | grep \"#{@url}/#{source_id}\" | grep -v grep | sed -e 's/^[ \t]*//' | cut -d ' ' -f 1)"
+
+        Command.run(find_cmd).stdout.split("\n").size.times do
+          Command.run(kill_cmd)
+        end
+
+        Process.kill('KILL', @browser_pid) if @browser_pid
       end
     end
   end
