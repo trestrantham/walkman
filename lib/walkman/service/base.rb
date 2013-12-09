@@ -2,29 +2,23 @@ module Walkman
   module Service
     class Base
       def startup
-        raise("Implement in Player")
+        raise("Implement in Service")
       end
 
       def shutdown
-        raise("Implement in Player")
+        raise("Implement in Service")
       end
 
       def restart
-        raise("Implement in Player")
+        raise("Implement in Service")
       end
 
       def play(song)
-        raise("Implement in Player")
+        raise("Implement in Service")
       end
 
       def stop
-        raise("Implement in Player")
-      end
-
-      protected
-
-      def ps_count?(val)
-        `ps aux | grep "#{val}" | grep -v grep | wc -l | tr -d ' '`.chomp != "0"
+        raise("Implement in Service")
       end
     end
   end
