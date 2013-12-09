@@ -98,4 +98,16 @@ describe Walkman::Playlist do
       }.from(1).to(0)
     end
   end
+
+  describe "#shuffle" do
+    it "changes the order of songs in the queue" do
+      100.times { playlist.add(Walkman::Song.new) }
+
+      expect {
+        playlist.shuffle
+      }.to change {
+        playlist.queue.first
+      }
+    end
+  end
 end
