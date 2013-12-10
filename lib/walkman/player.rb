@@ -1,11 +1,11 @@
 require "singleton"
 require "forwardable"
 
-SERVICES = [Walkman::Service::Rdio]
-
 module Walkman
   class Player
     include Singleton
+
+    SERVICES = [Walkman::Service::Rdio]
 
     def services
       @services ||= begin
