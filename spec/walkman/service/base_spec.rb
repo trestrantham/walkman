@@ -7,7 +7,7 @@ describe Walkman::Service::Base do
     expect { interface.startup }.to raise_error
     expect { interface.shutdown }.to raise_error
     expect { interface.restart }.to raise_error
-    expect { interface.play }.to raise_error
+    expect { interface.play("foo") }.to raise_error
     expect { interface.stop }.to raise_error
   end
 end
