@@ -8,6 +8,7 @@ class RdioPlayer < Sinatra::Base
 
   get "/rdio/:song_id/done" do |song_id|
     Walkman::Player.services["Walkman::Service::Rdio"].stop
+    "Done"
   end
 
   template :player do
