@@ -7,7 +7,7 @@ class RdioPlayer < Sinatra::Base
   end
 
   get "/rdio/:song_id/done" do |song_id|
-    Walkman::Player.services["Walkman::Service::Rdio"].stop
+    Walkman::Player.services["Walkman::Services::Rdio"].stop
     "Done"
   end
 
@@ -48,13 +48,16 @@ class RdioPlayer < Sinatra::Base
     apiswf = $('#apiswf').get(0);
     apiswf.rdio_play(track_key);
   }
+
+  callback_object.playStateChanged = function playStateChanged(playState) {
+    if(playState == 2 && playing != null) {
+      $.get('/rdio/' + track_key + '/done');
+    }
+  }
+
   callback_object.playingTrackChanged = function playingTrackChanged(playingTrack, sourcePosition) {
     if(playing == null) {
       playing = playingTrack;
-    }
-    else if(playingTrack == null) {
-      done = true
-      $.get('/rdio/' + track_key + '/done');
     }
 
     if (playingTrack != null) {

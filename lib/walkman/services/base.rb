@@ -1,5 +1,5 @@
 module Walkman
-  module Service
+  module Services
     class Base
       def startup
         raise("Implement in Service")

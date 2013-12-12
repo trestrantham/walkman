@@ -1,7 +1,7 @@
 require "spec_helper"
 
-describe Walkman::Service::Base do
-  let(:interface) { Walkman::Service::Base.new }
+describe Walkman::Services::Base do
+  let(:interface) { Walkman::Services::Base.new }
 
   it "raises an error for all methods required by subclass" do
     expect { interface.startup }.to raise_error

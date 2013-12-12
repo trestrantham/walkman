@@ -5,7 +5,7 @@ describe Walkman::Player do
 
   describe "#services" do
     it "returns a hash of all services this player knows about" do
-      expect(player.services.keys).to include("Walkman::Service::Rdio")
+      expect(player.services.keys).to include("Walkman::Services::Rdio")
     end
   end
 

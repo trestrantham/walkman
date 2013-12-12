@@ -1,6 +1,6 @@
 module Walkman
-  module Service
-    class Rdio < Walkman::Service::Base
+  module Services
+    class Rdio < Walkman::Services::Base
       def initialize
         @url = "http://localhost:4567/rdio"
         @app = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --no-process-singleton-dialog --incognito'

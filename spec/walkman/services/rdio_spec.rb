@@ -1,7 +1,7 @@
 require "spec_helper"
 
-describe Walkman::Service::Rdio do
-  let(:rdio) { Walkman::Service::Rdio.new }
+describe Walkman::Services::Rdio do
+  let(:rdio) { Walkman::Services::Rdio.new }
 
   before do
     RdioPlayer.stub(:run!) { 1234 }
