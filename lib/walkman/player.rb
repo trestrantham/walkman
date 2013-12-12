@@ -5,7 +5,7 @@ module Walkman
   class Player
     include Singleton
 
-    SERVICES = [Walkman::Service::Rdio]
+    SERVICES = [Walkman::Services::Rdio]
 
     def services
       @services ||= begin

@@ -78,7 +78,7 @@ describe Walkman::Playlist do
       expect(playlist.queue.index(song)).to eq(0)
     end
 
-    it "ignores invalide indexes when adding a song" do
+    it "ignores invalid indexes when adding a song" do
       3.times { playlist.add(Walkman::Song.new) }
 
       playlist.add(song, 999)
