@@ -13,8 +13,8 @@ describe RdioPlayer do
   end
 
   it "responds to /rdio/:source_id/done" do
-    Walkman::Services::Rdio.any_instance.stub(:stop)
-    expect_any_instance_of(Walkman::Services::Rdio).to receive(:stop)
+    Walkman::Player.any_instance.stub(:current_song=)
+    expect_any_instance_of(Walkman::Player).to receive(:current_song=)
 
     get "/rdio/t1234567/done"
 

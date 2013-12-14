@@ -7,7 +7,7 @@ class RdioPlayer < Sinatra::Base
   end
 
   get "/rdio/:song_id/done" do |song_id|
-    Walkman::Player.services["Walkman::Services::Rdio"].stop
+    Walkman::Player.instance.current_song = nil # TODO: make this not suck
     "Done"
   end
 
