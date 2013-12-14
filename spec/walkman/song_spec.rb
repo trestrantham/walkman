@@ -10,4 +10,16 @@ describe Walkman::Song do
   it "responds to #source_id" do
     expect(song).to respond_to(:source_id)
   end
+
+  it "responds to #artist" do
+    expect(song).to respond_to(:artist)
+  end
+
+  it "responds to #title" do
+    expect(song).to respond_to(:title)
+  end
+
+  it "responds to #album" do
+    expect(song).to respond_to(:album)
+  end
 end
