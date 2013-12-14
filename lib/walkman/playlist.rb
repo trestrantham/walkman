@@ -31,7 +31,8 @@ module Walkman
       @queue.delete_if { |s| s == song }
     end
 
-    # def pop
-    # end
+    def next
+      @queue.shift
+    end
   end
 end

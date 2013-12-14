@@ -110,4 +110,15 @@ describe Walkman::Playlist do
       }
     end
   end
+
+  describe "#next" do
+    it "returns the next song from the playlist" do
+      song2 = Walkman::Song.new
+
+      playlist.add([song, song2])
+
+      expect(playlist.next).to eq(song)
+      expect(playlist.next).to eq(song2)
+    end
+  end
 end
