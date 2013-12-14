@@ -5,7 +5,14 @@ module Walkman
   class Player
     include Singleton
 
+    attr_accessor :playlist, :current_song, :playing
+
     SERVICES = [Walkman::Services::Rdio]
+
+    def initialize
+      @current_song = nil
+      @playing = false
+    end
 
     def services
       @services ||= begin
@@ -17,28 +24,45 @@ module Walkman
       services.each do |key, service|
         service.startup
       end
+
+      @playlist_thread = Thread.fork do
+        while true
+          self.next if @playing && @current_song.nil?
+
+          sleep 0.5
+        end
+      end
     end
 
     def shutdown
+      @playlist_thread.terminate
+
       services.each do |key, service|
         service.shutdown
       end
     end
 
-    def play(song)
-      stop
-      services[song.source_type].play(song.source_id)
+    def play
+      @playing = true
+
+      if @current_song
+        services[@current_song.source_type].play(@current_song.source_id)
+      end
     end
 
     def stop
+      @playing = false
+
       services.each do |key, service|
         service.stop
       end
     end
 
-    # pause
-    # next
-    # prev
+    def next
+      stop if @playing
+      @current_song = playlist.next
+      play
+    end
 
     # Forward instance methods to the class
     class << self
