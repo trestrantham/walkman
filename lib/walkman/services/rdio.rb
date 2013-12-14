@@ -7,11 +7,14 @@ module Walkman
       end
 
       def startup
-        @player_pid = fork { RdioPlayer.run! }
+        @player_thread = Thread.fork do
+          $stderr.reopen File.new('/dev/null', 'w')
+          RdioPlayer.run!
+        end
       end
 
       def shutdown
-        Process.kill('KILL', @player_pid) if @player_pid
+        @player_thread.terminate if @player_thread
       end
 
       def restart

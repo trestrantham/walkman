@@ -4,7 +4,6 @@ describe Walkman::Services::Rdio do
   let(:rdio) { Walkman::Services::Rdio.new }
 
   before do
-    RdioPlayer.stub(:run!) { 1234 }
     Process.stub(:kill) { 1 }
     Command.stub(:run) { OpenStruct.new(stdout: "foo\nbar") }
     rdio.stub(:rand).with(anything) { 1234 }
@@ -12,20 +11,22 @@ describe Walkman::Services::Rdio do
 
   describe "#startup" do
     it "starts RdioPlayer and returns pid" do
-      expect(rdio).to receive(:fork) do |&block|
+      expect(Thread).to receive(:fork) do |&block|
         expect(RdioPlayer).to receive(:run!)
         block.call
       end
 
-      expect(rdio.startup).to be_a(Integer)
+      rdio.startup
     end
   end
 
   describe "#shutdown" do
-    it "kills RdioPlayer process" do
-      pid = rdio.startup
+    it "terminates RdioPlayer thread" do
+      pending
 
-      expect(Process).to receive(:kill).with("KILL", pid)
+      rdio.startup
+
+      expect(rdio.player_thread).to receive(:terminate)
 
       rdio.shutdown
     end
@@ -33,13 +34,8 @@ describe Walkman::Services::Rdio do
 
   describe "#restart" do
     it "stop and starts RdioPlayer" do
-      rdio.startup
-
-      expect(Process).to receive(:kill)
-      expect(rdio).to receive(:fork) do |&block|
-        expect(RdioPlayer).to receive(:run!)
-        block.call
-      end
+      expect(rdio).to receive(:shutdown)
+      expect(rdio).to receive(:startup)
 
       rdio.restart
     end
