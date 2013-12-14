@@ -21,10 +21,10 @@ module Walkman
       @queue.shuffle!
     end
 
-    def add(song, position = -1)
+    def add(songs, position = -1)
       index = @queue.size
       index = [position, index].min if position >= 0
-      @queue.insert(index, song)
+      @queue.insert(index, songs).flatten!
     end
 
     def remove(song)

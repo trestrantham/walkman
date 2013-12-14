@@ -58,6 +58,20 @@ describe Walkman::Playlist do
   end
 
   describe "#add" do
+    it "adds multiple songs to the end of the queue" do
+      songs = []
+
+      3.times do
+        songs << Walkman::Song.new
+      end
+
+      expect {
+        playlist.add(songs)
+      }.to change {
+        playlist.queue.size
+      }.from(0).to(3)
+    end
+
     it "adds a song to the end of the queue" do
       3.times { playlist.add(Walkman::Song.new) }
 
