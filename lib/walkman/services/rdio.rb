@@ -7,6 +7,8 @@ module Walkman
       end
 
       def startup
+        Walkman.logger.debug "Starting Rdio service"
+
         @player_thread = Thread.fork do
           $stderr.reopen File.new('/dev/null', 'w')
           RdioPlayer.run!
@@ -14,6 +16,8 @@ module Walkman
       end
 
       def shutdown
+        Walkman.logger.debug "Stopping Rdio service"
+
         @player_thread.terminate if @player_thread
       end
 

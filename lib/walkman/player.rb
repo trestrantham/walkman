@@ -10,8 +10,11 @@ module Walkman
     SERVICES = [Walkman::Services::Rdio]
 
     def initialize
+      Walkman.logger.debug "Initalizing player"
+
       @current_song = nil
       @playing = false
+      @running = false
     end
 
     def services
@@ -21,19 +24,29 @@ module Walkman
     end
 
     def startup
+      Walkman.logger.info "Starting services"
+
       services.each do |key, service|
         service.startup
       end
 
+      @running = true
+
       @playlist_thread = Thread.fork do
-        loop do
+        Walkman.logger.debug "Starting main play loop" 
+
+        while @running
           self.next if @playing && @current_song.nil?
         end
+
+        Walkman.logger.debug "Stopping main play loop"
       end
     end
 
     def shutdown
-      @playlist_thread.terminate
+      Walkman.logger.info "Stopping services"
+      @running = false
+      @playlist_thread.join
 
       services.each do |key, service|
         service.shutdown
@@ -41,6 +54,7 @@ module Walkman
     end
 
     def play
+      Walkman.logger.info "Playing current song"
       @playing = true
 
       if @current_song
@@ -49,6 +63,7 @@ module Walkman
     end
 
     def stop
+      Walkman.logger.info "Stopping current song"
       @playing = false
 
       services.each do |key, service|
@@ -57,6 +72,8 @@ module Walkman
     end
 
     def next
+      Walkman.logger.info "Playing next song"
+
       stop if @playing
       @current_song = playlist.next
       play

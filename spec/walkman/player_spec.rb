@@ -38,14 +38,13 @@ describe Walkman::Player do
   describe "#play" do
     it "plays a song from a specific music service" do
       service = Walkman::Player::SERVICES.first
-      song = Walkman::Song.new(source_type: service.name)
-      player.playlist = Walkman::Playlist.new(song)
+      player.current_song = Walkman::Song.new(source_type: service.name)
 
       expect_any_instance_of(service).to receive(:play)
 
       player.play
 
-      sleep 0.5 # have to give the play loop a chance to pick up the song
+      sleep 0.1 # have to give the play loop a chance to pick up the song
     end
   end
 
