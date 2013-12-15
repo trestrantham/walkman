@@ -45,7 +45,7 @@ describe Walkman::Player do
 
       player.play
 
-      sleep 1 # need a minute to get things going
+      sleep 0.5 # have to give the play loop a chance to pick up the song
     end
   end
 

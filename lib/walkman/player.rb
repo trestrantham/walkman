@@ -26,10 +26,8 @@ module Walkman
       end
 
       @playlist_thread = Thread.fork do
-        while true
+        loop do
           self.next if @playing && @current_song.nil?
-
-          sleep 0.5
         end
       end
     end
