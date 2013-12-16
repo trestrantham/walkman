@@ -2,24 +2,16 @@ module Walkman
   module Commands
     module Controls
       def self.play
-        Walkman::Player.play
+        Walkman::Player.instance.play
       end
 
-      # def pause
-      #   Player.pause
-      # end
+      def self.stop
+        Walkman::Player.instance.stop
+      end
 
-      # def stop
-      #   Player.stop
-      # end
-
-      # def next
-      #   Player.next
-      # end
-
-      # def previous
-      #   Player.previous
-      # end
+      def self.next
+        Walkman::Player.instance.next
+      end
     end
   end
 end

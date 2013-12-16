@@ -1,6 +1,6 @@
 module Walkman
   module Commands
-    class Queueing
+    module Queueing
     end
   end
 end
