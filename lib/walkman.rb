@@ -8,13 +8,14 @@ require "walkman/song"
 
 require "walkman/commands/controls"
 require "walkman/commands/information"
+require "walkman/commands/player"
 require "walkman/commands/queueing"
 
 module Walkman
   def self.logger
-    @logger ||= begin
+    @logger ||= Logger.new($stdout).tap do |log|
       $stdout.sync = true
-      Logger.new($stdout)
+      log.datetime_format = "%H:%M:%S"
     end
   end
 

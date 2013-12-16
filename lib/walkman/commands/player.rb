@@ -1,8 +1,12 @@
 module Walkman
   module Commands
-    module Controls
-      def self.play
-        Walkman::Player.play
+    module Player
+      def self.start
+        Walkman::Player.startup
+      end
+
+      def self.stop
+        Walkman::Player.shutdown
       end
 
       # def pause
