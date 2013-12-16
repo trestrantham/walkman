@@ -7,6 +7,10 @@ describe Walkman::Player do
     Walkman::Player.instance.startup
   end
 
+  after :all do
+    Walkman::Player.instance.shutdown
+  end
+
   describe "#services" do
     it "returns a hash of all services this player knows about" do
       expect(player.services.keys).to include("Walkman::Services::Rdio")
@@ -50,6 +54,8 @@ describe Walkman::Player do
 
   describe "#stop" do
     it "stops all music services" do
+      player.current_song = "foo"
+
       Walkman::Player::SERVICES.each do |service|
         service.any_instance.stub(:stop)
         expect_any_instance_of(service).to receive(:stop)
@@ -60,12 +66,35 @@ describe Walkman::Player do
   end
 
   describe "#next" do
+    let!(:song) { Walkman::Song.new }
+    let!(:playlist) { Walkman::Playlist.new }
+
+    before do
+      player.playlist = playlist
+    end
+
     it "plays the next song in the playlist" do
-      pending
+      player.current_song = nil
+      player.playlist.add(song)
+      player.play
+      sleep 0.1 # let the play loop pickup the new songs
+
+      expect {
+        player.next
+      }.to change {
+        player.current_song
+      }
     end
 
     it "stops playing if there are no more songs in the playlist queue" do
-      pending
+      playlist.clear
+      player.playing = true
+      player.current_song = "foo"
+
+      player.next
+
+      expect(player.current_song).to be_nil
+      expect(player.playing).to be_false
     end
   end
 

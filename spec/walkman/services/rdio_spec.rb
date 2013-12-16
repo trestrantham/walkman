@@ -10,7 +10,7 @@ describe Walkman::Services::Rdio do
   end
 
   describe "#startup" do
-    it "starts RdioPlayer and returns pid" do
+    it "starts RdioPlayer" do
       expect(Thread).to receive(:fork) do |&block|
         expect(RdioPlayer).to receive(:run!)
         block.call
@@ -22,11 +22,11 @@ describe Walkman::Services::Rdio do
 
   describe "#shutdown" do
     it "terminates RdioPlayer thread" do
-      pending
+      my_thread = "foo"
+      my_thread.stub(:terminate)
+      rdio.instance_variable_set("@player_thread", my_thread)
 
-      rdio.startup
-
-      expect(rdio.player_thread).to receive(:terminate)
+      expect(my_thread).to receive(:terminate)
 
       rdio.shutdown
     end

@@ -1,5 +1,4 @@
 require "singleton"
-require "forwardable"
 
 module Walkman
   class Player
@@ -36,7 +35,11 @@ module Walkman
         Walkman.logger.debug "Starting main play loop" 
 
         while @running
-          self.next if @playing && @current_song.nil?
+          if @playing && @current_song.nil?
+            play if self.next
+          end
+
+          sleep 0.1
         end
 
         Walkman.logger.debug "Stopping main play loop"
@@ -54,17 +57,22 @@ module Walkman
     end
 
     def play
-      Walkman.logger.info "Playing current song"
       @playing = true
 
       if @current_song
+        Walkman.logger.info "Playing current song"
+
         services[@current_song.source_type].play(@current_song.source_id)
       end
     end
 
     def stop
+      return if @current_song.nil?
+
       Walkman.logger.info "Stopping current song"
+
       @playing = false
+      @current_song = nil
 
       services.each do |key, service|
         service.stop
@@ -72,17 +80,9 @@ module Walkman
     end
 
     def next
-      Walkman.logger.info "Playing next song"
-
       stop if @playing
-      @current_song = playlist.next
-      play
-    end
 
-    # Forward instance methods to the class
-    class << self
-      extend Forwardable
-      def_delegators :instance, *Walkman::Player.instance_methods(false)
+      @current_song = playlist.next
     end
   end
 end
