@@ -1,7 +1,18 @@
 module Walkman
   class Playlist
-    def initialize(songs = [])
-      @queue = [songs].flatten # can one or more Songs
+    attr_accessor :session_id
+
+    def initialize(opts = {})
+      songs = opts.delete(:songs) || []
+      @queue = [songs].flatten # can add one or more Songs
+      @auto_queue = opts.delete(:auto_queue) || false
+
+      type = opts.delete(:type)
+      artist = opts.delete(:artist)
+
+      if type && artist
+        @session_id = remote_playlist(type, artist).session_id
+      end
     end
 
     def queue
@@ -33,6 +44,13 @@ module Walkman
 
     def next
       @queue.shift
+    end
+
+    private
+
+    def remote_playlist(type, artist)
+      bucket = ["id:rdio-US", "tracks"] 
+      Walkman.echowrap.playlist_dynamic_create(type: type, artist: artist, bucket: bucket)
     end
   end
 end

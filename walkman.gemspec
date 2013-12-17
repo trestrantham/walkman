@@ -20,5 +20,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "activemodel", "~> 4.0.2"
   spec.add_dependency "command", "~> 1.0"
+  spec.add_dependency "echowrap", "~> 0.1.0"
   spec.add_dependency "sinatra", "~> 1.4.4"
 end

@@ -4,20 +4,24 @@ describe Walkman::Playlist do
   let(:playlist) { Walkman::Playlist.new }
   let(:song) { Walkman::Song.new }
 
+  it "responds to #session_id" do
+    expect(playlist).to respond_to(:session_id)
+  end
+
   describe ".new" do
     it "initializes an empty queue" do
       expect(playlist.queue).to eq([])
     end
 
     it "initializes with a single song" do
-      song_playlist = Walkman::Playlist.new(song)
+      song_playlist = Walkman::Playlist.new(songs: song)
 
       expect(song_playlist.queue).to eq([song])
     end
 
     it "initializes with a multiple songs" do
       song2 = Walkman::Song.new
-      songs_playlist = Walkman::Playlist.new([song, song2])
+      songs_playlist = Walkman::Playlist.new(songs: [song, song2])
 
       expect(songs_playlist.queue).to eq([song, song2])
     end

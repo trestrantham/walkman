@@ -1,3 +1,5 @@
+require "echowrap"
+
 require "walkman/services/base"
 require "walkman/services/rdio"
 require "walkman/services/rdio/rdio_player"
@@ -37,6 +39,11 @@ module Walkman
       else
         Logger::INFO
       end
+    end
+  end
+
+  def self.echowrap
+    @echowrap ||= Echowrap.configure do |config|
     end
   end
 

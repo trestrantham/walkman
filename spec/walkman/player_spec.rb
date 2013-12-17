@@ -11,6 +11,10 @@ describe Walkman::Player do
     Walkman::Player.instance.shutdown
   end
 
+  it "responds to #playlist" do
+    expect(player).to respond_to(:playlist)
+  end
+
   describe "#services" do
     it "returns a hash of all services this player knows about" do
       expect(player.services.keys).to include("Walkman::Services::Rdio")
@@ -96,9 +100,5 @@ describe Walkman::Player do
       expect(player.current_song).to be_nil
       expect(player.playing).to be_false
     end
-  end
-
-  it "responds to #playlist" do
-    expect(player).to respond_to(:playlist)
   end
 end
