@@ -10,7 +10,7 @@ module Walkman
       @queue = [songs].flatten # can add one or more Songs
       @auto_queue = opts.delete(:auto_queue) || false
       @session_id = remote_session_id(type, artist) if type && artist
-        
+
       if @auto_queue && @session_id
         auto_queue && self.next
       end
@@ -58,10 +58,8 @@ module Walkman
     private
 
     def remote_session_id(type, artist)
-      bucket = ["id:rdio-US", "tracks"] 
-      remote_playlist = Walkman.echowrap.playlist_dynamic_create(type: type,
-                                                                 artist: artist,
-                                                                 bucket: bucket)
+      bucket = ["id:rdio-US", "tracks"]
+      remote_playlist = Walkman.echowrap.playlist_dynamic_create(type: type, artist: artist, bucket: bucket)
 
       if remote_playlist
         remote_playlist.session_id
@@ -77,6 +75,7 @@ module Walkman
       songs = []
 
       result.songs.each do |song|
+        # find the first track with a rdio foreign key
         track = song.tracks.find do |t|
           t.foreign_id && t.foreign_id.split(":")[0] == "rdio-US"
         end

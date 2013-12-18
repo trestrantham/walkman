@@ -32,7 +32,7 @@ module Walkman
       @running = true
 
       @playlist_thread = Thread.fork do
-        Walkman.logger.debug "Starting main play loop" 
+        Walkman.logger.debug "Starting main play loop"
 
         while @running
           if @playing && @current_song.nil?
