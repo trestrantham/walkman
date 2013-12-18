@@ -49,7 +49,7 @@ module Walkman
     def shutdown
       Walkman.logger.info "Stopping services"
       @running = false
-      @playlist_thread.join
+      @playlist_thread.join if @playlist_thread
 
       services.each do |key, service|
         service.shutdown
@@ -82,6 +82,7 @@ module Walkman
     def next
       stop if @playing
 
+      @playing = true
       @current_song = playlist.next
     end
   end
