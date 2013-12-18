@@ -139,4 +139,12 @@ describe Walkman::Playlist do
       expect(playlist.next).to eq(song2)
     end
   end
+
+  describe "#size" do
+    it "returns the size of the playlist queue" do
+      3.times { playlist.add(Walkman::Song.new) }
+
+      expect(playlist.size).to eq(3)
+    end
+  end
 end
