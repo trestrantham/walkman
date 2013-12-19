@@ -3,12 +3,9 @@ require "spec_helper"
 describe Walkman::Player do
   let!(:player) { Walkman::Player.instance }
 
-  before :all do
-    Walkman::Player.instance.startup
-  end
-
-  after :all do
-    Walkman::Player.instance.shutdown
+  after :each do
+    player.shutdown
+    player.playlist = nil
   end
 
   it "responds to #playlist" do
@@ -45,10 +42,13 @@ describe Walkman::Player do
 
   describe "#play" do
     it "plays a song from a specific music service" do
-      service = Walkman::Player::SERVICES.first
-      player.current_song = Walkman::Song.new(source_type: service.name)
+      player.startup
 
-      expect_any_instance_of(service).to receive(:play)
+      Walkman::Player::SERVICES.each do |service|
+        service.any_instance.stub(:play)
+        player.current_song = Walkman::Song.new(source_type: service.name)
+        expect_any_instance_of(service).to receive(:play)
+      end
 
       player.play
 
@@ -58,8 +58,6 @@ describe Walkman::Player do
 
   describe "#stop" do
     it "stops all music services" do
-      player.current_song = "foo"
-
       Walkman::Player::SERVICES.each do |service|
         service.any_instance.stub(:stop)
         expect_any_instance_of(service).to receive(:stop)
@@ -70,10 +68,11 @@ describe Walkman::Player do
   end
 
   describe "#next" do
-    let!(:song) { Walkman::Song.new }
+    let!(:song) { create(:song) }
     let!(:playlist) { Walkman::Playlist.new }
 
     before do
+      player.startup
       player.playlist = playlist
     end
 
@@ -91,7 +90,7 @@ describe Walkman::Player do
     end
 
     it "stops playing if there are no more songs in the playlist queue" do
-      playlist.clear
+      player.playlist.clear
       player.playing = true
       player.current_song = "foo"
 
