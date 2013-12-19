@@ -9,8 +9,8 @@ module Walkman
       def startup
         Walkman.logger.debug "Starting Rdio service"
 
-        @player_thread = Thread.fork do
-          $stderr.reopen File.new('/dev/null', 'w')
+        @player_thread = Thread.new do
+          # $stderr.reopen File.new('/dev/null', 'w')
           RdioPlayer.run!
         end
       end

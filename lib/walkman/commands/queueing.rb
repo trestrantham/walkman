@@ -8,7 +8,7 @@ module Walkman
         if playlist.size > 0
           Walkman::Player.instance.next
         else
-          "That artist couldn't be queued up."
+          "That artist couldn't be queued up"
         end
       end
     end

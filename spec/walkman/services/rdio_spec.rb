@@ -11,7 +11,7 @@ describe Walkman::Services::Rdio do
 
   describe "#startup" do
     it "starts RdioPlayer" do
-      expect(Thread).to receive(:fork) do |&block|
+      expect(Thread).to receive(:new) do |&block|
         expect(RdioPlayer).to receive(:run!)
         block.call
       end

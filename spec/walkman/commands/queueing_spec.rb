@@ -45,7 +45,7 @@ describe Walkman::Commands::Queueing do
 
         expect(player.playlist).to be_nil
 
-        expect(Walkman::Commands::Queueing.play_artist("Foo")).to eq("That artist couldn't be queued up.")
+        expect(Walkman::Commands::Queueing.play_artist("Foo")).to eq("That artist couldn't be queued up")
         expect(player.playlist).to_not be_nil
         expect(player.playlist.size).to be(0)
       end
