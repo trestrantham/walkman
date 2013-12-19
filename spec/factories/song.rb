@@ -2,10 +2,10 @@ FactoryGirl.define do
   factory :song, class: Walkman::Song do
     skip_create
 
-    album { "Album" }
-    artist { "Artist" }
-    source_id { "t12345678" }
+    sequence(:album) { |x| "Album#{x}" }
+    sequence(:artist) { |x| "Artist#{x}" }
+    sequence(:source_id) { |x| "t#{x}" }
     source_type { Walkman::Player::SERVICES.shuffle.first.to_s }
-    title { "Title" }
+    sequence(:title) { |x| "Title#{x}" }
   end
 end

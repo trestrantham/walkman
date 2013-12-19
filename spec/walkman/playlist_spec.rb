@@ -1,8 +1,8 @@
 require "spec_helper"
 
 describe Walkman::Playlist do
-  let(:playlist) { Walkman::Playlist.new }
-  let(:song) { Walkman::Song.new }
+  let(:playlist) { create(:playlist) }
+  let(:song) { create(:song) }
 
   it "responds to #session_id" do
     expect(playlist).to respond_to(:session_id)
@@ -20,7 +20,7 @@ describe Walkman::Playlist do
     end
 
     it "initializes with a multiple songs" do
-      song2 = Walkman::Song.new
+      song2 = create(:song)
       songs_playlist = Walkman::Playlist.new(songs: [song, song2])
 
       expect(songs_playlist.queue).to eq([song, song2])
@@ -66,7 +66,7 @@ describe Walkman::Playlist do
       songs = []
 
       3.times do
-        songs << Walkman::Song.new
+        songs << create(:song)
       end
 
       expect {
@@ -77,7 +77,7 @@ describe Walkman::Playlist do
     end
 
     it "adds a song to the end of the queue" do
-      3.times { playlist.add(Walkman::Song.new) }
+      3.times { playlist.add(create(:song)) }
 
       expect {
         playlist.add(song)
@@ -89,7 +89,7 @@ describe Walkman::Playlist do
     end
 
     it "inserts a song into the given index" do
-      3.times { playlist.add(Walkman::Song.new) }
+      3.times { playlist.add(create(:song)) }
 
       playlist.add(song, 0)
 
@@ -97,7 +97,7 @@ describe Walkman::Playlist do
     end
 
     it "ignores invalid indexes when adding a song" do
-      3.times { playlist.add(Walkman::Song.new) }
+      3.times { playlist.add(create(:song)) }
 
       playlist.add(song, 999)
 
@@ -119,7 +119,7 @@ describe Walkman::Playlist do
 
   describe "#shuffle" do
     it "changes the order of songs in the queue" do
-      100.times { playlist.add(Walkman::Song.new) }
+      100.times { playlist.add(create(:song)) }
 
       expect {
         playlist.shuffle
@@ -131,7 +131,7 @@ describe Walkman::Playlist do
 
   describe "#next" do
     it "returns the next song from the playlist" do
-      song2 = Walkman::Song.new
+      song2 = create(:song)
 
       playlist.add([song, song2])
 
@@ -142,7 +142,7 @@ describe Walkman::Playlist do
 
   describe "#size" do
     it "returns the size of the playlist queue" do
-      3.times { playlist.add(Walkman::Song.new) }
+      3.times { playlist.add(create(:song)) }
 
       expect(playlist.size).to eq(3)
     end
