@@ -4,13 +4,13 @@ FactoryGirl.define do
 
     ignore do
       session_id { "ABCDEFG123456789" }
-      songs { [create(:song)] }
+      songs { [] }
     end
 
     initialize_with do
       Walkman::Playlist.new(
-        songs: songs,
-        session_id: session_id
+        session_id: session_id,
+        songs: songs
       )
     end
   end

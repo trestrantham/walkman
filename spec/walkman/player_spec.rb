@@ -69,7 +69,7 @@ describe Walkman::Player do
 
   describe "#next" do
     let!(:song) { create(:song) }
-    let!(:playlist) { create(:playlist, songs: [song]) }
+    let!(:playlist) { create(:playlist) }
 
     before do
       player.startup
@@ -77,16 +77,15 @@ describe Walkman::Player do
     end
 
     it "plays the next song in the playlist" do
-      song2 = create(:song)
-      player.current_song = song2
-      player.play
-      sleep 0.1 # let the play loop pickup the new songs
+      player.playlist.clear
+      player.playlist.add(song)
+      player.current_song = nil
 
       expect {
         player.next
       }.to change {
         player.current_song
-      }.from(song2).to(song)
+      }.from(nil).to(song)
     end
 
     it "stops playing if there are no more songs in the playlist queue" do
