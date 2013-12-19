@@ -4,7 +4,7 @@ module Walkman
   class Player
     include Singleton
 
-    attr_accessor :playlist, :current_song, :playing
+    attr_accessor :current_song, :playing
 
     SERVICES = [Walkman::Services::Rdio]
 
@@ -80,6 +80,14 @@ module Walkman
       else
         stop
       end
+    end
+
+    def playlist
+      @playlist ||= Walkman::Playlist.new
+    end
+
+    def playlist=(playlist)
+      @playlist = playlist
     end
 
     private

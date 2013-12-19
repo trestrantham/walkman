@@ -16,22 +16,25 @@ describe Walkman::Commands::Queueing do
 
   describe ".play_artist" do
     it "queries echo nest for the songs by the given artist" do
-      expect(player.playlist).to be_nil
+      expect(Walkman.echowrap).to receive(:playlist_dynamic_create)
+      expect(Walkman.echowrap).to receive(:playlist_dynamic_next)
 
-      Walkman::Commands::Queueing.play_artist("Artist") # from stub
+      expect {
+        Walkman::Commands::Queueing.play_artist("Artist") # from stub
+      }.to change {
+        player.playlist.size
+      }.from(0).to(1)
 
-      expect(player.playlist).to_not be_nil
       expect(player.playlist.instance_variable_get("@session_id")).to eq(playlist_dynamic_create.session_id)
     end
 
     describe "songs found on echo nest" do
       it "adds songs to the current playlist" do
-        expect(player.playlist).to be_nil
-
-        Walkman::Commands::Queueing.play_artist("Artist") # from stub
-
-        expect(player.playlist).to_not be_nil
-        expect(player.playlist.size).to eq(1)
+        expect {
+          Walkman::Commands::Queueing.play_artist("Artist") # from stub
+        }.to change {
+          player.playlist.size
+        }.from(0).to(1)
 
         expect(player.current_song.artist).to eq(song.artist_name)
         expect(player.current_song.title).to eq(song.title)
@@ -43,10 +46,8 @@ describe Walkman::Commands::Queueing do
         playlist_dynamic_next = create(:echowrap_playlist, :dynamic_next, songs: [])
         Walkman.echowrap.stub(:playlist_dynamic_next) { playlist_dynamic_next }
 
-        expect(player.playlist).to be_nil
-
+        expect(player.playlist.size).to eq(0)
         expect(Walkman::Commands::Queueing.play_artist("Foo")).to eq("That artist couldn't be queued up")
-        expect(player.playlist).to_not be_nil
         expect(player.playlist.size).to be(0)
       end
     end
