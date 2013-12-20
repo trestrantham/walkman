@@ -63,10 +63,14 @@ module Walkman
     end
 
     def play
+      Walkman.logger.debug("player play")
+
       @playing = true
     end
 
     def stop
+      Walkman.logger.debug("player stop")
+
       @playing = false
 
       services.each do |key, service|

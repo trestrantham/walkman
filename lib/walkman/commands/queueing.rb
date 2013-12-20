@@ -7,6 +7,7 @@ module Walkman
 
         if playlist.size > 0
           Walkman.player.next
+          "♫ Playing songs by #{artist}"
         else
           "That artist couldn't be queued up"
         end
