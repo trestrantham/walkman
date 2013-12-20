@@ -2,7 +2,7 @@ module Walkman
   module Commands
     module Information
       def self.now_playing
-        if song = Walkman::Player.instance.current_song
+        if song = Walkman.player.current_song
           "♫ Now playing #{song.title} by #{song.artist}"
         else
           "No music is playing."
@@ -10,7 +10,7 @@ module Walkman
       end
 
       def self.up_next(num = 5)
-        songs = Walkman::Player.instance.playlist.queue.take(num)
+        songs = Walkman.player.playlist.queue.take(num)
         songs_string = ""
 
         songs.each do |song|

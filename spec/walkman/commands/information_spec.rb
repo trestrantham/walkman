@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Walkman::Commands::Information do
-  let(:player) { Walkman::Player.instance }
+  let(:player) { Walkman.player }
   let(:song) { Walkman::Song.new(title: "Bar", artist: "Foo", album: "Baz") }
 
   describe ".now_playing" do

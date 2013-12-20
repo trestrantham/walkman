@@ -3,10 +3,10 @@ module Walkman
     module Queueing
       def self.play_artist(artist)
         playlist = Walkman::Playlist.new(type: "artist", artist: artist, auto_queue: true)
-        Walkman::Player.instance.playlist = playlist
+        Walkman.player.playlist = playlist
 
         if playlist.size > 0
-          Walkman::Player.instance.next
+          Walkman.player.next
         else
           "That artist couldn't be queued up"
         end

@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Walkman::Player do
-  let!(:player) { Walkman::Player.instance }
+  let!(:player) { Walkman.player }
 
   after :each do
     player.shutdown

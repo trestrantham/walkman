@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Walkman::Commands::Controls do
-  let!(:player) { Walkman::Player.instance }
+  let!(:player) { Walkman.player }
 
   describe ".play" do
     it "calls play on the player" do

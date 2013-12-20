@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Walkman::Commands::Queueing do
-  let!(:player) { Walkman::Player.instance }
+  let!(:player) { Walkman.player }
   let!(:song) { create(:echowrap_song, artist_name: "Artist") }
   let!(:playlist_dynamic_create) { create(:echowrap_playlist, :dynamic_create) }
   let!(:playlist_dynamic_next) { create(:echowrap_playlist, :dynamic_next, songs: [song]) }

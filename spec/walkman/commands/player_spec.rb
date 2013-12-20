@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Walkman::Commands::Player do
-  let!(:player) { Walkman::Player.instance }
+  let!(:player) { Walkman.player }
 
   describe ".start" do
     it "calls startup on the player" do

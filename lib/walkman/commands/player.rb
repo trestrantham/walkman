@@ -2,11 +2,11 @@ module Walkman
   module Commands
     module Player
       def self.start
-        Walkman::Player.instance.startup
+        Walkman.player.startup
       end
 
       def self.stop
-        Walkman::Player.instance.shutdown
+        Walkman.player.shutdown
       end
     end
   end

@@ -1,9 +1,9 @@
-require "singleton"
-
 module Walkman
-  class Player
-    include Singleton
+  def self.player
+    @@player ||= Walkman::Player.new
+  end
 
+  class Player
     attr_accessor :current_song, :playing
 
     SERVICES = [Walkman::Services::Rdio]
