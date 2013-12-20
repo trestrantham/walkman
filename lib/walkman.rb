@@ -48,6 +48,9 @@ module Walkman
 
   def self.echowrap
     @echowrap ||= Echowrap.configure do |config|
+      config.api_key       = Walkman.config.echonest_api_key
+      config.consumer_key  = Walkman.config.echonest_consumer_key
+      config.shared_secret = Walkman.config.echonest_shared_secret
     end
   end
 end

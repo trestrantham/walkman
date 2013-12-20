@@ -33,7 +33,7 @@ module Walkman
 
       def launch_browser(source_id)
         data_dir = "/tmp/walkman/chrome/#{rand(999999999999)}"
-        launch_cmd = "#{@app} \"#{@url}/#{source_id}\" --user-data-data-dir=#{data_dir}"
+        launch_cmd = "#{Walkman.config.browser_app} \"#{Walkman.config.rdio_url}/#{source_id}\" --user-data-data-dir=#{data_dir}"
 
         @browser_pid = fork { Command.run(launch_cmd) }
       end
@@ -42,7 +42,7 @@ module Walkman
         find_cmd = "ps ax | grep \"#{@url}/#{source_id}\" | grep -v grep"
         Walkman.logger.debug("killing browser process") 
 
-        kill_cmd = "kill $(ps ax | grep \"#{@url}/#{source_id}\" | grep -v grep | sed -e 's/^[ \t]*//' | cut -d ' ' -f 1)"
+        kill_cmd = "kill $(ps ax | grep \"#{Walkman.config.rdio_url}/#{source_id}\" | grep -v grep | sed -e 's/^[ \t]*//' | cut -d ' ' -f 1)"
 
         Command.run(find_cmd).stdout.split("\n").size.times do
           Command.run(kill_cmd)
