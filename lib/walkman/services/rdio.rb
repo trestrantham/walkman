@@ -36,7 +36,7 @@ module Walkman
         launch_cmd = "#{Walkman.config.browser_app} \"#{Walkman.config.rdio_url}/#{source_id}\" --user-data-data-dir=#{data_dir}"
 
         @browser_pid = Process.fork do
-          Signal.trap("TERM") { puts "TERM"; exit }
+          Signal.trap("TERM") { exit }
 
           Command.run(launch_cmd)
         end
@@ -56,7 +56,7 @@ module Walkman
 
         if @browser_pid
           Walkman.logger.debug("killing browser pid #{@browser_pid}")
-          Process.kill("TERM", @browser_pid)
+          Process.kill("TERM", @browser_pid) rescue nil
         end
       end
     end

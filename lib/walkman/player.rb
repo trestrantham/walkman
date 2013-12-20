@@ -27,7 +27,7 @@ module Walkman
 
       @running = true
 
-      @playlist_thread = Thread.new do
+      @play_loop = Thread.new do
         current_loop_song = nil
         last_loop_song = nil
 
@@ -46,6 +46,8 @@ module Walkman
             end
 
             last_loop_song = current_loop_song
+          else
+            last_loop_song = nil
           end
 
           sleep 0.1
@@ -55,7 +57,7 @@ module Walkman
 
     def shutdown
       @running = false
-      @playlist_thread.join if @playlist_thread
+      @play_loop.join if @play_loop
 
       services.each do |key, service|
         service.shutdown
