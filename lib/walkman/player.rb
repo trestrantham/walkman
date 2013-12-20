@@ -27,7 +27,7 @@ module Walkman
 
       @running = true
 
-      @playlist_thread = Thread.fork do
+      @playlist_thread = Thread.new do
         current_loop_song = nil
         last_loop_song = nil
 
