@@ -1,16 +1,10 @@
 module Walkman
   module Services
     class Rdio < Walkman::Services::Base
-      def initialize
-        @url = "http://localhost:4567/rdio"
-        @app = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --no-process-singleton-dialog --incognito'
-      end
-
       def startup
         Walkman.logger.debug "Starting Rdio service"
 
         @player_thread = Thread.new do
-          # $stderr.reopen File.new('/dev/null', 'w')
           RdioPlayer.run!
         end
       end
