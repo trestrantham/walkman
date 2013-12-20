@@ -5,8 +5,12 @@ describe Walkman::Services::Rdio do
 
   before do
     Process.stub(:kill) { 1 }
-    Command.stub(:run) { OpenStruct.new(stdout: "foo\nbar") }
     rdio.stub(:rand).with(anything) { 1234 }
+
+    # During tests, Process.fork seems to use an implicit return rather than
+    # returning a pid. Since Command.run is the last statement in our Process.fork
+    # block, we need to make sure it returns an int.
+    Command.stub(:run) { 1 }
   end
 
   describe "#startup" do
@@ -43,7 +47,9 @@ describe Walkman::Services::Rdio do
 
   describe "#play" do
     it "launches a new player browser with the given song" do
-      expect(rdio).to receive(:fork) do |&block|
+      rdio.instance_variable_set("@browser_pid", 123)
+
+      expect(Process).to receive(:fork) do |&block|
         expect(Command).to receive(:run).with("/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --no-process-singleton-dialog --incognito \"http://localhost:4567/rdio/t1234567\" --user-data-data-dir=/tmp/walkman/chrome/1234")
         block.call
       end
@@ -54,8 +60,6 @@ describe Walkman::Services::Rdio do
 
   describe "#stop" do
     it "stops any currently playing song" do
-
-      expect(Command).to receive(:run).with("ps ax | grep \"http://localhost:4567/rdio/\" | grep -v grep").at_least(2).times
       expect(Command).to receive(:run).with("kill $(ps ax | grep \"http://localhost:4567/rdio/\" | grep -v grep | sed -e 's/^[ \t]*//' | cut -d ' ' -f 1)").at_least(2).times
       expect(Process).to receive(:kill)
 
