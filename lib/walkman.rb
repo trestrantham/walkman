@@ -15,6 +15,8 @@ require "walkman/commands/information"
 require "walkman/commands/player"
 require "walkman/commands/queueing"
 
+require "walkman/cli"
+
 module Walkman
   def self.logger
     @@logger ||= ::Logger.new(STDOUT).tap do |l|

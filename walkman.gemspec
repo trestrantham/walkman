@@ -14,6 +14,7 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files`.split($/)
   spec.test_files    = spec.files.grep(/^spec/)
   spec.require_paths = ["lib"]
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake", "~> 10.1"
@@ -22,4 +23,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "command", "~> 1.0"
   spec.add_dependency "echowrap", "~> 0.1.0"
   spec.add_dependency "sinatra", "~> 1.4.4"
+  spec.add_dependency "thor", "~> 0.18.1"
 end
