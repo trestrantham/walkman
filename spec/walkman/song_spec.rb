@@ -22,4 +22,8 @@ describe Walkman::Song do
   it "responds to #album" do
     expect(song).to respond_to(:album)
   end
+
+  it "responds to #echonest_id" do
+    expect(song).to respond_to(:echonest_id)
+  end
 end

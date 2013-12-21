@@ -13,6 +13,7 @@ require "walkman/song"
 require "walkman/commands/controls"
 require "walkman/commands/information"
 require "walkman/commands/player"
+require "walkman/commands/playlist"
 require "walkman/commands/queueing"
 
 require "walkman/cli"

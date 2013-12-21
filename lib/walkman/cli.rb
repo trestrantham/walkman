@@ -88,6 +88,12 @@ module Walkman
       puts response unless response.empty?
     end
 
+    desc "like", "plays more music like the current song"
+    def like
+      response = server.run_command(:like)
+      puts response unless response.empty?
+    end
+
     no_tasks do
       def stop_server
         DRb.stop_service
@@ -107,6 +113,7 @@ module Walkman
         when :now_playing  then Walkman::Commands::Information.now_playing
         when :artist       then Walkman::Commands::Queueing.artist(options[:artist])
         when :artist_radio then Walkman::Commands::Queueing.artist_radio(options[:artist])
+        when :like         then Walkman::Commands::Playlist.like
         end
       end
     end
