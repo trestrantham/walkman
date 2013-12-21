@@ -50,7 +50,7 @@ describe Walkman::Services::Rdio do
       rdio.instance_variable_set("@browser_pid", 123)
 
       expect(Process).to receive(:fork) do |&block|
-        expect(Command).to receive(:run).with("/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --no-process-singleton-dialog --incognito \"http://localhost:4567/rdio/t1234567\" --user-data-data-dir=/tmp/walkman/chrome/1234")
+        expect(Command).to receive(:run).with("/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --no-process-singleton-dialog \"http://localhost:4567/rdio/t1234567\" --user-data-data-dir=/tmp/walkman/chrome/1234")
         block.call
       end
 

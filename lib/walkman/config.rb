@@ -33,13 +33,13 @@ module Walkman
       @echonest_api_key       = "8DKQQ3JDRGSS4OFDZ"
       @echonest_consumer_key  = "a56ef5ddc2fd5b1c0da6df4250642611"
       @echonest_shared_secret = "8xd5/ZEfRrezQGo5jX1naA"
-      @echonest_variety       = 0.25
+      @echonest_variety       = 0.25 # 0.0..1.0
 
       # rdio service
       @rdio_url               = "http://localhost:4567/rdio"
       @rdio_playback_token    = "GAlStTGYAAA1NmNmNXZ5dXFxbXZ0eDY1ZjNhcjNyYnZoamxvY2FsaG9zdOA4EoJRBs1gIGRLADoKJak="
       # @rdio_playback_token    = "GAlNi78J_____zlyYWs5ZG02N2pkaHlhcWsyOWJtYjkyN2xvY2FsaG9zdEbwl7EHvbylWSWFWYMZwfc="
-      @browser_app            = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --no-process-singleton-dialog --incognito' # must be single quotes
+      @browser_app            = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --no-process-singleton-dialog' # must be single quotes
     end
   end
 end
