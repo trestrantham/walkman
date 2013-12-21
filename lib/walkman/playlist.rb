@@ -62,7 +62,10 @@ module Walkman
       type = options.fetch(:type)
       bucket = ["id:rdio-US", "tracks"]
 
-      remote_playlist = Walkman.echowrap.playlist_dynamic_create(type: type, artist: artist, bucket: bucket)
+      remote_playlist = Walkman.echowrap.playlist_dynamic_create(type: type,
+                                                                 artist: artist,
+                                                                 bucket: bucket,
+                                                                 variety: Walkman.config.echonest_variety)
 
       if remote_playlist
         remote_playlist.session_id

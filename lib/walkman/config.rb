@@ -16,6 +16,7 @@ module Walkman
     attr_reader   :echonest_api_key
     attr_reader   :echonest_consumer_key
     attr_reader   :echonest_shared_secret
+    attr_reader   :echonest_variety
 
     # rdio
     attr_accessor :rdio_url
@@ -31,6 +32,7 @@ module Walkman
       @echonest_api_key       = "8DKQQ3JDRGSS4OFDZ"
       @echonest_consumer_key  = "a56ef5ddc2fd5b1c0da6df4250642611"
       @echonest_shared_secret = "8xd5/ZEfRrezQGo5jX1naA"
+      @echonest_variety       = 0.25
 
       # rdio service
       @rdio_url    = "http://localhost:4567/rdio"
