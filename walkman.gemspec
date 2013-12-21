@@ -20,8 +20,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.1"
 
   spec.add_dependency "activemodel", "~> 4.0.2"
+  spec.add_dependency "colorize", "~> 0.6.0"
   spec.add_dependency "command", "~> 1.0"
   spec.add_dependency "echowrap", "~> 0.1.0"
   spec.add_dependency "sinatra", "~> 1.4.4"
   spec.add_dependency "thor", "~> 0.18.1"
+  spec.add_dependency "titleize", "~> 1.3.0"
 end

@@ -8,13 +8,13 @@ describe Walkman::Commands::Information do
     it "returns track info about the current song if playing" do
       player.current_song = song
 
-      expect(Walkman::Commands::Information.now_playing).to eq("♫ Now playing Bar by Foo")
+      expect(Walkman::Commands::Information.now_playing).to include("Now playing")
     end
 
     it "returns a notice if no song is playing" do
       player.current_song = nil
 
-      expect(Walkman::Commands::Information.now_playing).to eq("No music is playing.")
+      expect(Walkman::Commands::Information.now_playing).to eq("No music is playing")
     end
   end
 

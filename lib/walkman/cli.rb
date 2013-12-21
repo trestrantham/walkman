@@ -1,5 +1,6 @@
 require "thor"
 require "drb"
+require "colorize"
 
 module Walkman
   class CLI < Thor
@@ -35,42 +36,56 @@ module Walkman
 
     desc "shutdown", "stops the walkman server"
     def shutdown
-      server.run_command("Walkman::Commands::Player.stop")
-      server.stop_server
+      response = server.run_command(:player_stop)
+      puts response unless response.empty?
 
-      Walkman.logger.info("server stopped")
+      server.stop_server
     end
 
     # controls tasks
 
     desc "play", "plays the current playlist"
     def play
-      puts server.run_command("Walkman::Commands::Controls.play")
+      response = server.run_command(:play)
+      puts response unless response.empty?
     end
 
     desc "stop", "stops playing music"
     def stop
-      puts server.run_command("Walkman::Commands::Controls.stop")
+      response = server.run_command(:stop)
+      puts response unless response.empty?
     end
 
     desc "next", "plays the next song in the current playlist"
     def next
-      puts server.run_command("Walkman::Commands::Controls.next")
+      response = server.run_command(:next)
+      puts response unless response.empty?
     end
 
     desc "now_playing", "shows the song that's currently playing"
     def now_playing
-      puts server.run_command("Walkman::Commands::Information.now_playing")
+      response = server.run_command(:now_playing)
+      puts response unless response.empty?
     end
 
     desc "up_next", "shows the next songs on the current playlist"
     def up_next
-      puts server.run_command("Walkman::Commands::Information.up_next")
+      response = server.run_command(:up_next)
+      puts response unless response.empty?
     end
 
     desc "play_artist ARTIST", "plays songs from the given artist"
-    def play_artist(artist)
-      puts server.run_command("Walkman::Commands::Queueing.play_artist(\"#{artist}\")")
+    def play_artist(*artist)
+      artist = artist.join(" ")
+      response = server.run_command(:artist, { artist: artist })
+      puts response unless response.empty?
+    end
+
+    desc "play_artist_radio ARTIST", "plays music like the given artist"
+    def play_artist_radio(*artist)
+      artist = artist.join(" ")
+      response = server.run_command(:artist_radio, { artist: artist })
+      puts response unless response.empty?
     end
 
     no_tasks do
@@ -82,8 +97,17 @@ module Walkman
         @server ||= DRbObject.new_with_uri(Walkman.config.drb_uri)
       end
 
-      def run_command(command)
-        eval(command)
+      def run_command(command, options = {})
+        case command
+        when :player_stop  then Walkman::Commands::Player.stop
+        when :play         then Walkman::Commands::Controls.play
+        when :stop         then Walkman::Commands::Controls.stop
+        when :next         then Walkman::Commands::Controls.next
+        when :up_next      then Walkman::Commands::Information.up_next
+        when :now_playing  then Walkman::Commands::Information.now_playing
+        when :artist       then Walkman::Commands::Queueing.artist(options[:artist])
+        when :artist_radio then Walkman::Commands::Queueing.artist_radio(options[:artist])
+        end
       end
     end
   end
