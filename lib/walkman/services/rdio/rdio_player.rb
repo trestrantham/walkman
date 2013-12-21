@@ -3,7 +3,7 @@ require "command"
 
 class RdioPlayer < Sinatra::Base
   get "/rdio/:song_id" do |song_id|
-    erb :player, locals: { song_id: song_id }
+    erb :player, locals: { playback_token: Walkman.config.rdio_playback_token, song_id: song_id }
   end
 
   get "/rdio/:song_id/done" do |song_id|
@@ -18,7 +18,7 @@ class RdioPlayer < Sinatra::Base
 <script type="text/javascript">
   window.resizeTo(450, 450);
 
-  var playback_token = 'GAlNi78J_____zlyYWs5ZG02N2pkaHlhcWsyOWJtYjkyN2xvY2FsaG9zdEbwl7EHvbylWSWFWYMZwfc=';
+  var playback_token = '<%= playback_token %>';
   var domain = 'localhost'
   var track_key = '<%= song_id %>';
 

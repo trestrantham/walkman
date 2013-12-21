@@ -20,6 +20,7 @@ module Walkman
 
     # rdio
     attr_accessor :rdio_url
+    attr_accessor :rdio_playback_token
     attr_accessor :browser_app
 
     def initialize
@@ -35,8 +36,10 @@ module Walkman
       @echonest_variety       = 0.25
 
       # rdio service
-      @rdio_url    = "http://localhost:4567/rdio"
-      @browser_app = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --no-process-singleton-dialog --incognito'
+      @rdio_url               = "http://localhost:4567/rdio"
+      @rdio_playback_token    = "GAlStTGYAAA1NmNmNXZ5dXFxbXZ0eDY1ZjNhcjNyYnZoamxvY2FsaG9zdOA4EoJRBs1gIGRLADoKJak="
+      # @rdio_playback_token    = "GAlNi78J_____zlyYWs5ZG02N2pkaHlhcWsyOWJtYjkyN2xvY2FsaG9zdEbwl7EHvbylWSWFWYMZwfc="
+      @browser_app            = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --no-process-singleton-dialog --incognito' # must be single quotes
     end
   end
 end
