@@ -29,7 +29,7 @@ with support for [Spotify](http://spotify.com) and local file playback via
 3. Create a catalog (taste profile) to use as your base library and grab its `id` to use as `catalog_id`:
 
 ```
-curl -F "api_key=<api_key>" -F "format=json" -F "type=general" -F "name=base_profile"
+curl -F "api_key=<api_key>" -F "format=json" -F "type=general" -F "name=base_profile" "http://developer.echonest.com/api/v4/tasteprofile/create"
 ```
 
 ### Rdio
