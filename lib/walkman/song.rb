@@ -6,6 +6,6 @@ module Walkman
 
     attr_accessor :source_type, :source_id
     attr_accessor :title, :artist, :album
-    attr_accessor :echonest_id
+    attr_accessor :echonest_song_id, :echonest_artist_id
   end
 end

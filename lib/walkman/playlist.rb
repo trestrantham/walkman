@@ -97,7 +97,8 @@ module Walkman
                                    title: song.title,
                                    source_type: "Walkman::Services::Rdio",
                                    source_id: track.foreign_id.split(":").last,
-                                   echonest_id: song.id)
+                                   echonest_artist_id: song.artist_id,
+                                   echonest_song_id: song.id)
       end
 
       add(songs)
