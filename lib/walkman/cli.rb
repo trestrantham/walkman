@@ -57,8 +57,14 @@ module Walkman
     end
 
     desc "next", "plays the next song in the current playlist"
-    def next
-      response = server.run_command(:next)
+    def next(count = 1)
+      response = server.run_command(:next, { count: count.to_i })
+      puts response unless response.empty?
+    end
+
+    desc "skip COUNT", "skips the given amount of songs"
+    def skip(count = 1)
+      response = server.run_command(:skip, { count: count.to_i })
       puts response unless response.empty?
     end
 
@@ -108,7 +114,8 @@ module Walkman
         when :player_stop  then Walkman::Commands::Player.stop
         when :play         then Walkman::Commands::Controls.play
         when :stop         then Walkman::Commands::Controls.stop
-        when :next         then Walkman::Commands::Controls.next
+        when :next         then Walkman::Commands::Controls.next(options[:count])
+        when :skip         then Walkman::Commands::Controls.skip(options[:count])
         when :up_next      then Walkman::Commands::Information.up_next
         when :now_playing  then Walkman::Commands::Information.now_playing
         when :artist       then Walkman::Commands::Queueing.artist(options[:artist])

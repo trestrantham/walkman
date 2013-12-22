@@ -15,14 +15,15 @@ module Walkman
         ""
       end
 
-      def self.next
-        Walkman.player.next
+      def self.next(count = 1)
+        Walkman.player.next(count)
         song = Walkman.player.current_song
 
         output = ["♫".blue, "Skipping"]
         output << ["to", song.title.bold, "by", song.artist.bold] if song
         output.flatten.join(" ")
       end
+      define_singleton_method(:skip) { |count| self.next(count) }
     end
   end
 end

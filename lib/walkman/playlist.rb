@@ -43,12 +43,17 @@ module Walkman
       @queue.delete_if { |s| s == song }
     end
 
-    def next
+    def next(count = 1)
+      # if the playlist is not empty, we can get one or more
+      # songs back so we need to make sure we get the last one
+      songs = @queue.shift(count)
+      song = [songs].flatten.last
+
       if @auto_queue && size <= 5
         auto_queue(5) if @session_id
       end
 
-      @queue.shift
+      song
     end
 
     def size

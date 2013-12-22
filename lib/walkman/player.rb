@@ -80,8 +80,8 @@ module Walkman
       end
     end
 
-    def next
-      if @current_song = playlist.next
+    def next(count = 1)
+      if @current_song = playlist.next(count)
         @playing = true
       else
         stop
