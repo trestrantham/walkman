@@ -4,6 +4,10 @@ describe Walkman::Playlist do
   let(:playlist) { create(:playlist) }
   let(:song) { create(:song) }
 
+  before do
+    Walkman.echowrap.stub(:playlist_dynamic_feedback)
+  end
+
   it "responds to #session_id" do
     expect(playlist).to respond_to(:session_id)
   end

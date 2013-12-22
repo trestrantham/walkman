@@ -6,7 +6,7 @@ module Walkman
         playlist = Walkman.player.playlist
 
         if current_song && playlist
-          playlist.favorite(current_song)
+          playlist.feedback(:favorite, current_song)
           "Awesome! I'll play more songs like this."
         else
           "No music is playing. Are you hearing things?"

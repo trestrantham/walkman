@@ -3,6 +3,10 @@ require "spec_helper"
 describe Walkman::Player do
   let!(:player) { Walkman.player }
 
+  before do
+    Walkman.echowrap.stub(:playlist_dynamic_feedback)
+  end
+
   after :each do
     player.shutdown
     player.playlist = nil

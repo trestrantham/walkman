@@ -12,6 +12,7 @@ describe Walkman::Commands::Queueing do
 
     Walkman.echowrap.stub(:playlist_dynamic_create) { playlist_dynamic_create }
     Walkman.echowrap.stub(:playlist_dynamic_next) { playlist_dynamic_next }
+    Walkman.echowrap.stub(:playlist_dynamic_feedback)
   end
 
   describe ".artist" do
