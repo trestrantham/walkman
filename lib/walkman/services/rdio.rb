@@ -33,7 +33,7 @@ module Walkman
 
       def launch_browser(source_id)
         data_dir = "/tmp/walkman/chrome/#{rand(999999999999)}"
-        launch_cmd = "#{Walkman.config.browser_app} \"#{Walkman.config.rdio_url}/#{source_id}\" --user-data-data-dir=#{data_dir}"
+        launch_cmd = "#{Walkman.config.rdio_browser_path} \"#{Walkman.config.rdio_player_url}/#{source_id}\" --user-data-data-dir=#{data_dir}"
 
         @browser_pid = Process.fork do
           Signal.trap("TERM") { exit }
@@ -51,7 +51,7 @@ module Walkman
       def quit_browser(source_id = "")
         Walkman.logger.debug("killing browser process")
 
-        kill_cmd = "kill $(ps ax | grep \"#{Walkman.config.rdio_url}/#{source_id}\" | grep -v grep | sed -e 's/^[ \t]*//' | cut -d ' ' -f 1)"
+        kill_cmd = "kill $(ps ax | grep \"#{Walkman.config.rdio_player_url}/#{source_id}\" | grep -v grep | sed -e 's/^[ \t]*//' | cut -d ' ' -f 1)"
         Command.run(kill_cmd)
 
         if @browser_pid
