@@ -11,8 +11,8 @@ module Walkman
         end
       end
 
-      def self.up_next(num = 5)
-        songs = Walkman.player.playlist.queue.take(num)
+      def self.up_next(count = 5)
+        songs = Walkman.player.playlist.queue.take(count)
         songs_string = ""
 
         songs.each do |song|

@@ -3,13 +3,13 @@ module Walkman
     attr_accessor :session_id
 
     def initialize(options = {})
-      type = options.delete(:type)
-      artist = options.delete(:artist)
       songs = options.delete(:songs) || []
-
       @queue = [songs].flatten # can add one or more Songs
       @auto_queue = options.delete(:auto_queue) || false
-      @session_id = remote_session_id(type: type, artist: artist) if type && artist
+
+      if echonest_playlist = echonest_playlist_create(options)
+        @session_id = echonest_playlist.session_id
+      end
 
       if @auto_queue && @session_id
         auto_queue && self.next
@@ -47,7 +47,11 @@ module Walkman
       # if the playlist is not empty, we can get one or more
       # songs back so we need to make sure we get the last one
       songs = @queue.shift(count)
-      song = [songs].flatten.last
+      songs = [songs].flatten
+      song = songs.pop # the last song skipped
+
+      # skip and unplay songs so our echonest catalog/profile stays true
+      skip(songs)
 
       if @auto_queue && size <= 5
         auto_queue(5) if @session_id
@@ -60,29 +64,56 @@ module Walkman
       @queue.size
     end
 
+    def unplay(songs)
+      songs = [songs].flatten # one or more
+
+      songs.each do |song|
+        echonest_playlist_feedback({ unplay_song: song.echonest_song_id })
+      end
+    end
+
+    def skip(songs)
+      songs = [songs].flatten # one or more
+
+      songs.each do |song|
+        echonest_playlist_feedback({ skip_song: song.echonest_song_id, unplay_song: song.echonest_song_id })
+      end
+    end
+
+    def favorite(songs)
+      songs = [songs].flatten # one or more
+
+      songs.each do |song|
+        echonest_playlist_feedback({ favorite_song: song.echonest_song_id, favorite_artist: song.echonest_artist_id })
+      end
+    end
+
     private
 
-    def remote_session_id(options = {})
-      artist = options.fetch(:artist)
-      type = options.fetch(:type)
-      bucket = ["id:rdio-US", "tracks"]
+    def echonest_playlist_create(options = {})
+      return nil unless options.keys.include?(:type)
 
-      remote_playlist = Walkman.echowrap.playlist_dynamic_create(type: type,
-                                                                 artist: artist,
-                                                                 bucket: bucket,
-                                                                 variety: Walkman.config.echonest_variety)
+      options[:bucket] = ["id:rdio-US", "tracks"]
+      options[:seed_catalog] = Walkman.config.echonest_catalog_id
+      options[:session_catalog] = Walkman.config.echonest_catalog_id
 
-      if remote_playlist
-        remote_playlist.session_id
+      if remote_playlist = Walkman.echowrap.playlist_dynamic_create(options)
+        remote_playlist
       else
         nil
       end
     end
 
-    def auto_queue(num = 10)
+    def echonest_playlist_feedback(args = {})
+      args[:session_id] = @session_id
+
+      Walkman.echowrap.playlist_dynamic_feedback(args)
+    end
+
+    def auto_queue(count = 5)
       return 0 unless @session_id
 
-      result = Walkman.echowrap.playlist_dynamic_next(session_id: @session_id, results: num)
+      result = Walkman.echowrap.playlist_dynamic_next(session_id: @session_id, results: count)
       songs = []
 
       result.songs.each do |song|

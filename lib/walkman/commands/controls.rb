@@ -16,6 +16,10 @@ module Walkman
       end
 
       def self.next(count = 1)
+        if current_song = Walkman.player.current_song
+          Walkman.player.playlist.skip(current_song)
+        end
+
         Walkman.player.next(count)
         song = Walkman.player.current_song
 
