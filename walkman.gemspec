@@ -6,8 +6,8 @@ Gem::Specification.new do |spec|
 
   spec.author      = "Tres Trantham"
   spec.email       = "tres@trestrantham.com"
-  spec.description = ""
-  spec.summary     = ""
+  spec.description = "Control your music"
+  spec.summary     = "Control your music"
   spec.homepage    = "https://github.com/trestrantham/walkman"
   spec.license     = "MIT"
 
