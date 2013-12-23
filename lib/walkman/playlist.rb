@@ -51,7 +51,7 @@ module Walkman
       song = songs.pop # the last song skipped
 
       # skip and unplay songs so our echonest catalog/profile stays true
-      feedback([:skip, :unplay], songs)
+      feedback([:skip, :unplay], songs) unless songs.empty?
 
       if @auto_queue && size <= 5
         auto_queue(5) if @session_id

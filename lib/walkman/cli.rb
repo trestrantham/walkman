@@ -11,7 +11,7 @@ module Walkman
     option :daemon, type: :boolean, aliases: "-d"
     def start
       if options[:daemon]
-        Process.daemon 
+        Process.daemon
       else
         puts "Starting walkman server"
         puts "Run `walkman start -d` for daemon"

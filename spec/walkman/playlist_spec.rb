@@ -6,6 +6,7 @@ describe Walkman::Playlist do
 
   before do
     Walkman.echowrap.stub(:playlist_dynamic_feedback)
+    playlist.session_id = "ABC123"
   end
 
   it "responds to #session_id" do
@@ -149,6 +150,32 @@ describe Walkman::Playlist do
       3.times { playlist.add(create(:song)) }
 
       expect(playlist.size).to eq(3)
+    end
+  end
+
+  describe "#feedback" do
+    it "updates favorites" do
+      args = { session_id: "ABC123", favorite_song: [song.echonest_song_id], favorite_artist: [song.echonest_artist_id] }
+
+      expect(Walkman.echowrap).to receive(:playlist_dynamic_feedback).with(args)
+
+      playlist.feedback(:favorite, song)
+    end
+
+    it "updates unplay counts" do
+      args = { session_id: "ABC123", unplay_song: [song.echonest_song_id] }
+
+      expect(Walkman.echowrap).to receive(:playlist_dynamic_feedback).with(args)
+
+      playlist.feedback(:unplay, song)
+    end
+
+    it "updates skip counts" do
+      args = { session_id: "ABC123", skip_song: [song.echonest_song_id] }
+
+      expect(Walkman.echowrap).to receive(:playlist_dynamic_feedback).with(args)
+
+      playlist.feedback(:skip, song)
     end
   end
 end

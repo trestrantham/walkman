@@ -1,0 +1,13 @@
+log_level: info
+server:
+  host: localhost
+  port: 27001
+echonest:
+  api_key: ABC
+  consumer_key: DEF
+  shared_secret: GHI
+  catalog_id: JKL
+rdio:
+  playback_token: MNO
+  player_url: http://localhost:1/rdio
+  browser_path: /path/to/browser
