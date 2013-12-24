@@ -30,18 +30,16 @@ module Walkman
 
   def self.log_level(log_level_string)
     case log_level_string.to_s
-    when "unknown"
-      ::Logger::UNKNOWN
-    when "fatal"
-      ::Logger::FATAL
-    when "error"
-      ::Logger::ERROR
-    when "warn"
-      ::Logger::WARN
-    when "info"
-      ::Logger::INFO
     when "debug"
       ::Logger::DEBUG
+    when "info"
+      ::Logger::INFO
+    when "warn"
+      ::Logger::WARN
+    when "error"
+      ::Logger::ERROR
+    when "fatal"
+      ::Logger::FATAL
     else
       raise "Unknown log level given #{log_level_string}"
     end
