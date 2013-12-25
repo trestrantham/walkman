@@ -5,6 +5,7 @@ module Walkman
 
   class Player
     attr_accessor :current_song, :playing
+    attr_writer   :playlist
 
     SERVICES = [Walkman::Services::Rdio]
 
@@ -90,10 +91,6 @@ module Walkman
 
     def playlist
       @playlist ||= Walkman::Playlist.new
-    end
-
-    def playlist=(playlist)
-      @playlist = playlist
     end
 
     private

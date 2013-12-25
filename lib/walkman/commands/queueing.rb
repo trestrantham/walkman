@@ -2,11 +2,9 @@ module Walkman
   module Commands
     module Queueing
       def self.artist(artist)
-        playlist = Walkman::Playlist.new(type: "artist", artist: artist, auto_queue: true)
-        Walkman.player.playlist = playlist
+        playlist = self.queue("artist", artist: artist)
 
         if playlist.size > 0
-          Walkman.player.next
           output = ["♫".blue, "Playing songs by", artist.titleize.bold]
           output.flatten.join(" ")
         else
@@ -15,16 +13,29 @@ module Walkman
       end
 
       def self.artist_radio(artist)
-        playlist = Walkman::Playlist.new(type: "artist-radio", artist: artist, auto_queue: true)
-        Walkman.player.playlist = playlist
+        playlist = self.queue("artist-radio", artist: artist)
 
         if playlist.size > 0
-          Walkman.player.next
           output = ["♫".blue, "Playing music like", artist.titleize.bold]
           output.flatten.join(" ")
         else
           "Music like that artist couldn't be queued"
         end
+      end
+
+      private
+
+      def self.queue(type, args = {})
+        args.merge!(type: type.to_s, auto_queue: true)
+
+        playlist = Walkman::Playlist.new(args)
+        Walkman.player.playlist = playlist
+
+        if playlist.size > 0
+          Walkman.player.next
+        end
+
+        playlist
       end
     end
   end

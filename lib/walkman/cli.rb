@@ -4,7 +4,6 @@ require "colorize"
 
 module Walkman
   class CLI < Thor
-
     # server tasks
 
     desc "start", "starts the walkman server"
@@ -19,11 +18,9 @@ module Walkman
 
         trap("INT") do
           # calling this in a thread to get proper logging
-          thread = Thread.new do
+          Thread.new do
             shutdown
-          end
-
-          thread.join
+          end.join
         end
       end
 
@@ -58,13 +55,13 @@ module Walkman
 
     desc "next", "plays the next song in the current playlist"
     def next(count = 1)
-      response = server.run_command(:next, { count: count.to_i })
+      response = server.run_command(:next, count: count.to_i)
       puts response unless response.empty?
     end
 
     desc "skip COUNT", "skips the given amount of songs"
     def skip(count = 1)
-      response = server.run_command(:skip, { count: count.to_i })
+      response = server.run_command(:skip, count: count.to_i)
       puts response unless response.empty?
     end
 
@@ -83,14 +80,14 @@ module Walkman
     desc "play_artist ARTIST", "plays songs from the given artist"
     def play_artist(*artist)
       artist = artist.join(" ")
-      response = server.run_command(:artist, { artist: artist })
+      response = server.run_command(:artist, artist: artist)
       puts response unless response.empty?
     end
 
     desc "play_artist_radio ARTIST", "plays music like the given artist"
     def play_artist_radio(*artist)
       artist = artist.join(" ")
-      response = server.run_command(:artist_radio, { artist: artist })
+      response = server.run_command(:artist_radio, artist: artist)
       puts response unless response.empty?
     end
 

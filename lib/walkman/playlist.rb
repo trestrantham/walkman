@@ -1,6 +1,7 @@
 module Walkman
   class Playlist
     attr_accessor :session_id
+    attr_reader   :queue
 
     def initialize(options = {})
       songs = options.delete(:songs) || []
@@ -12,12 +13,9 @@ module Walkman
       end
 
       if @auto_queue && @session_id
-        auto_queue && self.next
+        auto_queue
+        self.next
       end
-    end
-
-    def queue
-      @queue
     end
 
     def clear
@@ -70,17 +68,13 @@ module Walkman
       song_ids = songs.map(&:echonest_song_id)
       args     = { session_id: @session_id }
 
-      types.each do |type|
-        case type
-        when :favorite
-          args[:favorite_song] = song_ids
-          args[:favorite_artist] = songs.map(&:echonest_artist_id)
-        when :unplay
-          args[:unplay_song] = song_ids
-        when :skip
-          args[:skip_song] = song_ids
-        end
+      if types.include?(:favorite)
+        args[:favorite_song] = song_ids
+        args[:favorite_artist] = songs.map(&:echonest_artist_id)
       end
+
+      args[:unplay_song] = song_ids if types.include?(:unplay)
+      args[:skip_song] = song_ids if types.include?(:skip)
 
       Walkman.echowrap.playlist_dynamic_feedback(args)
     end
