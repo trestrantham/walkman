@@ -104,21 +104,23 @@ module Walkman
     end
 
     def parse_remote_songs(remote_songs)
-      songs = []
-
-      remote_songs.each do |song|
+      remote_songs.map do |song|
         # find the first track with a rdio foreign key
-        if track = song.tracks.find { |t| t.foreign_id.to_s.split(":")[0] == "rdio-US" }
-          songs << Walkman::Song.new(artist: song.artist_name,
-                                    title: song.title,
-                                    source_type: "Walkman::Services::Rdio",
-                                    source_id: track.foreign_id.split(":").last,
-                                    echonest_artist_id: song.artist_id,
-                                    echonest_song_id: song.id)
+        track = song.tracks.find do |t|
+          t.foreign_id && t.foreign_id.split(":")[0] == "rdio-US"
         end
-      end
 
-      songs
+        if track
+          Walkman::Song.new(artist: song.artist_name,
+                            title: song.title,
+                            source_type: "Walkman::Services::Rdio",
+                            source_id: track.foreign_id.split(":").last,
+                            echonest_artist_id: song.artist_id,
+                            echonest_song_id: song.id)
+        else
+          nil
+        end
+      end.compact # prune any nil elements
     end
   end
 end
