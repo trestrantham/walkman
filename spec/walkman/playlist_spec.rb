@@ -44,13 +44,13 @@ describe Walkman::Playlist do
     it "returns true if the given song is currently queued" do
       playlist.add(song)
 
-      expect(playlist.include?(song)).to be_true
-      expect(playlist.queued?(song)).to be_true
+      expect(playlist.include?(song)).to eq(true)
+      expect(playlist.queued?(song)).to eq(true)
     end
 
     it "returns false if the given song is not currently queued" do
-      expect(playlist.include?(song)).to be_false
-      expect(playlist.queued?(song)).to be_false
+      expect(playlist.include?(song)).to eq(false)
+      expect(playlist.queued?(song)).to eq(false)
     end
   end
 

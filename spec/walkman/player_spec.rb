@@ -95,7 +95,6 @@ describe Walkman::Player do
       end
 
       player.play
-
       sleep 0.2 # have to give the play loop a chance to pick up the song
     end
   end
@@ -110,6 +109,7 @@ describe Walkman::Player do
       end
 
       player.stop
+      sleep 0.2 # have to give the play loop a chance to pick up the song
     end
   end
 
@@ -142,7 +142,7 @@ describe Walkman::Player do
       player.next
 
       expect(player.current_song).to be_nil
-      expect(player.playing).to be_false
+      expect(player.playing).to eq(false)
     end
   end
 end
