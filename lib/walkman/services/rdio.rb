@@ -12,6 +12,7 @@ module Walkman
       def shutdown
         Walkman.logger.debug "stopping Rdio service"
 
+        quit_browser
         @player_thread.terminate if @player_thread
       end
 
