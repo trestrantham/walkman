@@ -12,6 +12,15 @@ module Walkman
           "No music is playing. Are you hearing things?"
         end
       end
+
+      def self.shuffle!
+        if playlist = Walkman.player.playlist
+          playlist.shuffle!
+          "Shaking things up a bit."
+        else
+          "No music is queued."
+        end
+      end
     end
   end
 end

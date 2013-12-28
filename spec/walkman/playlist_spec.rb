@@ -122,12 +122,12 @@ describe Walkman::Playlist do
     end
   end
 
-  describe "#shuffle" do
+  describe "#shuffle!" do
     it "changes the order of songs in the queue" do
       100.times { playlist.add(create(:song)) }
 
       expect {
-        playlist.shuffle
+        playlist.shuffle!
       }.to change {
         playlist.queue.first
       }

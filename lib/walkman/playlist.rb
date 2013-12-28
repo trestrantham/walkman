@@ -27,7 +27,7 @@ module Walkman
     end
     alias_method :queued?, :include?
 
-    def shuffle
+    def shuffle!
       @queue.shuffle!
     end
 
