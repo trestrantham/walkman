@@ -14,11 +14,6 @@ describe Walkman::Player do
 
     player.playlist = nil
     player.current_song = nil
-    player.startup
-  end
-
-  after do
-    player.shutdown
   end
 
   it "responds to #playlist" do
@@ -34,7 +29,6 @@ describe Walkman::Player do
   describe "#startup" do
     it "starts up all music services" do
       Walkman::Player::SERVICES.each do |service|
-        service.any_instance.unstub(:startup)
         expect_any_instance_of(service).to receive(:startup)
       end
 
@@ -42,13 +36,26 @@ describe Walkman::Player do
     end
 
     describe "play loop" do
+      before do
+        player.services.each_with_index do |(k, service), i|
+          service.stub(:startup)
+          service.stub(:shutdown)
+        end
+
+        player.startup
+      end
+
+      after do
+        player.shutdown
+      end
+
       it "calls #next if there is no current song" do
         player.current_song = nil
 
         expect(player).to receive(:next).at_least(1)
 
         player.play
-        sleep 0.1
+        sleep 0.2
       end
 
       it "calls #stop if the last loop song is different than the current loop song" do
@@ -56,21 +63,21 @@ describe Walkman::Player do
         player.playlist = create(:playlist)
         player.playlist.add(create(:song))
 
-        expect(player).to receive(:stop)
+        expect(player).to receive(:stop).at_least(1)
 
         player.play
         sleep 0.2
         player.current_song = create(:song)
-        sleep 0.1
+        sleep 0.2
       end
 
       it "calls #play_song if the last loop song is nil" do
         player.current_song = create(:song)
 
-        expect(player).to receive(:play_song)
+        expect(player).to receive(:play_song).at_least(1)
 
         player.play
-        sleep 0.1
+        sleep 0.2
       end
     end
   end
@@ -88,28 +95,29 @@ describe Walkman::Player do
 
   describe "#play" do
     it "plays a song from a specific music service" do
+      player.startup
+
       Walkman::Player::SERVICES.each do |service|
         service.any_instance.stub(:play)
-        player.current_song = create(:song, source_type: service.name)
         expect_any_instance_of(service).to receive(:play)
+        player.current_song = create(:song, source_type: service.name)
       end
 
       player.play
-      sleep 0.2 # have to give the play loop a chance to pick up the song
+      sleep 0.1
+      player.shutdown
     end
   end
 
   describe "#stop" do
     it "stops all music services" do
-      player.instance_variable_set("@play_loop", nil)
-
       Walkman::Player::SERVICES.each do |service|
         service.any_instance.stub(:stop)
         expect_any_instance_of(service).to receive(:stop)
       end
 
       player.stop
-      sleep 0.2 # have to give the play loop a chance to pick up the song
+      sleep 0.2
     end
   end
 
@@ -118,12 +126,11 @@ describe Walkman::Player do
     let!(:playlist) { create(:playlist) }
 
     before do
-      player.startup
       player.playlist = playlist
+      player.playlist.clear
     end
 
     it "plays the next song in the playlist" do
-      player.playlist.clear
       player.playlist.add(song)
       player.current_song = nil
 
@@ -135,7 +142,6 @@ describe Walkman::Player do
     end
 
     it "stops playing if there are no more songs in the playlist queue" do
-      player.playlist.clear
       player.playing = true
       player.current_song = song
 
