@@ -42,11 +42,35 @@ curl -F "api_key=<api_key>" -F "format=json" -F "type=general" -F "name=base_pro
 Create a Walkman config file at `~/.walkman`:
 
 ```
+log_level: debug # optional
+server:
+  host: localhost # optional
+  port: 27001 # optional
 echonest:
-  api_key: ABCDEFGHIJKLMNOP
-  consumer_key: abc123efg456hij789klm098nop765qr
-  shared_secret: 4jh&kjhfg.@3kjfl987FJ3
-  catalog_id: CACABCD1234567890Z
+  api_key: APIKEY
+  consumer_key: CONSUMERKEY
+  shared_secret: SHAREDSECRET
+  catalog_id: CATALOGID
 rdio:
-  playback_token: GAlNi78J_____zlyYWs5ZG02N2pkaHlhcWsyOWJtYjkyN2xvY2FsaG9zdEbwl7EHvbylWSWFWYMZwfc=
+  player_url: http://localhost:4567/rdio # optional
+  playback_token: PLAYBACKTOKEN
+  browser_path: /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --no-process-singleton-dialog # optional
+```
+
+## Usage
+
+```
+Commands:
+  walkman help [COMMAND]            # Describe available commands or one specific command
+  walkman like                      # plays more music like the current song
+  walkman next                      # plays the next song in the current playlist
+  walkman now_playing               # shows the song that's currently playing
+  walkman play                      # plays the current playlist
+  walkman play_artist ARTIST        # plays songs from the given artist
+  walkman play_artist_radio ARTIST  # plays music like the given artist
+  walkman shutdown                  # stops the walkman server
+  walkman skip COUNT                # skips the given amount of songs
+  walkman start                     # starts the walkman server
+  walkman stop                      # stops playing music
+  walkman up_next                   # shows the next songs on the current playlist
 ```
