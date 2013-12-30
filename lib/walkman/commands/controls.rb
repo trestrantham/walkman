@@ -3,16 +3,17 @@ module Walkman
     module Controls
       def self.play
         Walkman.player.play
-        song = Walkman.player.current_song
 
-        output = ["♫".blue, "Playing"]
-        output << [song.title.bold, "by", song.artist.bold] if song
-        output.flatten.join(" ")
+        if song = Walkman.player.current_song
+          "♫ Playing #{song.title} by #{song.artist}"
+        else
+          "♫ We're playing but the queue is empty!"
+        end
       end
 
       def self.stop
         Walkman.player.stop
-        ""
+        "Stopping walkman"
       end
 
       def self.next(count = 1)
@@ -21,11 +22,12 @@ module Walkman
         end
 
         Walkman.player.next(count)
-        song = Walkman.player.current_song
 
-        output = ["♫".blue, "Skipping"]
-        output << ["to", song.title.bold, "by", song.artist.bold] if song
-        output.flatten.join(" ")
+        if song = Walkman.player.current_song
+          "♫ Skipping to #{song.title} by #{song.artist}"
+        else
+          "No more songs in the queue. Stopping walkman"
+        end
       end
       define_singleton_method(:skip) { |count| self.next(count) }
     end

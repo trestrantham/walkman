@@ -5,8 +5,7 @@ module Walkman
         playlist = self.queue("artist", artist: artist)
 
         if playlist.size > 0
-          output = ["♫".blue, "Playing songs by", artist.titleize.bold]
-          output.flatten.join(" ")
+          "♫ Playing songs by #{artist.titleize}"
         else
           "That artist couldn't be queued"
         end
@@ -16,8 +15,7 @@ module Walkman
         playlist = self.queue("artist-radio", artist: artist)
 
         if playlist.size > 0
-          output = ["♫".blue, "Playing music like", artist.titleize.bold]
-          output.flatten.join(" ")
+          "♫ Playing music like #{artist.titleize}"
         else
           "Music like that artist couldn't be queued"
         end

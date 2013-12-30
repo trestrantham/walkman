@@ -3,9 +3,7 @@ module Walkman
     module Information
       def self.now_playing
         if song = Walkman.player.current_song
-          output = ["♫".blue, "Now playing"]
-          output << [song.title.bold, "by", song.artist.bold]
-          output.flatten.join(" ")
+          "♫ Now playing #{song.title} by #{song.artist}"
         else
           "No music is playing"
         end
