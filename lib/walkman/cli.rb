@@ -1,6 +1,5 @@
 require "thor"
 require "drb"
-require "colorize"
 
 module Walkman
   class CLI < Thor
