@@ -1,23 +1,23 @@
 require "echowrap"
 
-require "walkman/config"
-require "walkman/logger"
+require_relative "walkman/config"
+require_relative "walkman/logger"
 
-require "walkman/services/base"
-require "walkman/services/rdio"
-require "walkman/services/rdio/rdio_player"
+require_relative "walkman/services/base"
+require_relative "walkman/services/rdio"
+require_relative "walkman/services/rdio/rdio_player"
 
-require "walkman/player"
-require "walkman/playlist"
-require "walkman/song"
+require_relative "walkman/player"
+require_relative "walkman/playlist"
+require_relative "walkman/song"
 
-require "walkman/commands/controls"
-require "walkman/commands/information"
-require "walkman/commands/player"
-require "walkman/commands/playlist"
-require "walkman/commands/queueing"
+require_relative "walkman/commands/controls"
+require_relative "walkman/commands/information"
+require_relative "walkman/commands/player"
+require_relative "walkman/commands/playlist"
+require_relative "walkman/commands/queueing"
 
-require "walkman/cli"
+require_relative "walkman/cli"
 
 module Walkman
   def self.echowrap
